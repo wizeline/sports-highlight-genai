@@ -1,7 +1,3 @@
-
-# Dependency directories
-node_modules/
-
 # dotenv environment variable files
 .env
 
@@ -21,4 +17,6 @@ node_modules/
 *.mov
 *.wmv
 
-# Output files from project
+# Input and Output files from project
+/output_files
+/input_files
