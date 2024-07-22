@@ -37,9 +37,9 @@ ___
 * **@author:** Fabián Portillo González 
 * **@github user:** fabianpg95
 * **@author:** Narda Ballesteros
-* **@github user:** 
+* **@github user:** NardaBallesterosW
 * **@author:** Fernanda Meza
-* **@github user:** 
+* **@github user:** fernanda-meza-wizeline
 * **@author:** José Manuel Hidalgo
-* **@github user:** 
+* **@github user:** JoseHidalgoW
 ___
