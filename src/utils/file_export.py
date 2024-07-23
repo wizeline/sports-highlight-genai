@@ -8,7 +8,11 @@ def save_to_csv(dataframe, filename):
     :param dataframe: The DataFrame to save.
     :param filename: The name of the file (without path) to save the DataFrame.
     """
-    # Ensure the 'output_files' directory exists
+    if dataframe is None or dataframe.empty:
+        print("DataFrame is empty or None, not saving to CSV.")
+        return
+    
+    print("Saving to CSV...")
     if not os.path.exists('output_files'):
         os.makedirs('output_files')
     
@@ -23,7 +27,11 @@ def save_to_excel(dataframe, filename):
     :param dataframe: The DataFrame to save.
     :param filename: The name of the file (without path) to save the DataFrame.
     """
-    # Ensure the 'output_files' directory exists
+    if dataframe is None or dataframe.empty:
+        print("DataFrame is empty or None, not saving to Excel.")
+        return
+    
+    print("Saving to Excel...")
     if not os.path.exists('output_files'):
         os.makedirs('output_files')
     
@@ -38,7 +46,11 @@ def save_to_json(dataframe, filename):
     :param dataframe: The DataFrame to save.
     :param filename: The name of the file (without path) to save the DataFrame.
     """
-    # Ensure the 'output_files' directory exists
+    if dataframe is None or dataframe.empty:
+        print("DataFrame is empty or None, not saving to JSON.")
+        return
+    
+    print("Saving to JSON...") 
     if not os.path.exists('output_files'):
         os.makedirs('output_files')
     
