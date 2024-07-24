@@ -1,149 +1,108 @@
 import pandas as pd
+import json
+import openpyxl
+
+def load_json_data(filename):
+    with open(filename) as f:
+        return json.load(f)
 
 def process_player_data(data):
-    if 'players' in data:
-        data = data['players']
+    if 'body' in data:
+        data = data['body'] 
     if not data or not isinstance(data, list):
         print("No player data or data is not in expected format.")
-        return pd.DataFrame()  # Retorna un DataFrame vacío
+        return pd.DataFrame() 
 
-    # Convert JSON data to DataFrame
     df = pd.DataFrame(data)
     
-    if 'status' in df.columns:
-        # Example of filtering data: select players with a specific attribute
-        filtered_df = df[df['status'] == 'active']
+    if 'active' in df.columns:
+        filtered_df = df[df['active'] == True] 
     else:
-        print("Column 'status' not found in player data.")
+        print("Column 'active' not found in player data.")
         filtered_df = pd.DataFrame()
 
     return filtered_df
 
-def process_free_agent_data(data):
-    if 'free_agents' in data:
-        data = data['free_agents']
+def process_game_playbyplay_data(data):
+    if 'body' in data:
+        data = data['body']
     if not data or not isinstance(data, list):
-        print("No free agent data or data is not in expected format.")
-        return pd.DataFrame()  # Retorna un DataFrame vacío
+        print("No game play-by-play data or data is not in expected format.")
+        return pd.DataFrame()  
 
     df = pd.DataFrame(data)
-    
-    # Example of adding a new column
-    if 'available_since' in df.columns:
-        df['available_since'] = pd.to_datetime(df['available_since'])
-    
     return df
 
-def process_schedule_data(data):
-    if 'schedule' in data:
-        data = data['schedule']
-    if not data or not isinstance(data, list):
-        print("No schedule data or data is not in expected format.")
-        return pd.DataFrame()  # Retorna un DataFrame vacío
+def process_data(data):
 
-    df = pd.DataFrame(data)
-    
-    # Example of sorting data by a specific column
-    if 'game_date' in df.columns:
-        df_sorted = df.sort_values(by='game_date')
+    if 'body' in data:
+        games = data['body']
     else:
-        print("Column 'game_date' not found in schedule data.")
-        df_sorted = df
+        print("No game data found.")
+        return
 
-    return df_sorted
+    df_game_events = pd.DataFrame()
+    df_pitch_data = pd.DataFrame()
+    df_hit_data = pd.DataFrame()
 
-def process_team_data(data):
-    if 'teams' in data:
-        data = data['teams']
-    if not data or not isinstance(data, list):
-        print("No team data or data is not in expected format.")
-        return pd.DataFrame()  # Retorna un DataFrame vacío
+    for game in games:
+        result = game.get('result', {})
+        about = game.get('about', {})
+        play_events = game.get('playEvents', [])
 
-    df = pd.DataFrame(data)
-    
-    # Example of handling missing values
-    df.fillna('Unknown', inplace=True)
-    return df
+        game_event = {
+            'event_type': result.get('eventType', ''),
+            'description': result.get('description', ''),
+            'inning': about.get('inning', ''),
+            'half_inning': about.get('halfInning', ''),
+            'start_time': about.get('startTime', ''),
+            'end_time': about.get('endTime', ''),
+        }
 
-def process_team_history_data(data):
-    if data is None:
-        print("Received None for team history data.")
-        return pd.DataFrame()  # Retorna un DataFrame vacío
-    
-    if 'team_history' in data:
-        data = data['team_history']
-    if not data or not isinstance(data, list):
-        print("No team history data or data is not in expected format.")
-        return pd.DataFrame()  # Retorna un DataFrame vacío
+        df_game_events = df_game_events.append(game_event, ignore_index=True)
 
-    df = pd.DataFrame(data)
-    
-    # Example of grouping data
-    if {'year', 'wins', 'losses'}.issubset(df.columns):
-        df_grouped = df.groupby('year').agg({'wins': 'sum', 'losses': 'sum'})
-    else:
-        print("Columns 'year', 'wins', or 'losses' not found in team history data.")
-        df_grouped = pd.DataFrame()  # Retorna un DataFrame vacío si las columnas no están presentes
+        for play_event in play_events:
+            pitch_data = play_event.get('pitchData', {})
+            hit_data = play_event.get('hitData', {})
 
-    return df_grouped
+            pitch_event = {
+                'pitch_start_speed': pitch_data.get('startSpeed', ''),
+                'pitch_end_speed': pitch_data.get('endSpeed', ''),
+                'pitch_type': pitch_data.get('type', {}).get('description', ''),
+                'pitch_coordinates': pitch_data.get('coordinates', {}),
+            }
 
-def process_team_coaches_data(data):
-    if 'team_coaches' in data:
-        data = data['team_coaches']
-    if not data or not isinstance(data, list):
-        print("No team coaches data or data is not in expected format.")
-        return pd.DataFrame()  # Retorna un DataFrame vacío
+            hit_event = {
+                'hit_launch_angle': hit_data.get('launchAngle', ''),
+                'hit_distance': hit_data.get('totalDistance', ''),
+                'hit_trajectory': hit_data.get('trajectory', ''),
+            }
 
-    df = pd.DataFrame(data)
-    
-    # Example of merging with another DataFrame (uncomment and replace 'other_df' with actual DataFrame if needed)
-    # other_df = pd.DataFrame()  # Replace this with actual DataFrame
-    # df_merged = pd.merge(df, other_df, on='coach_id', how='left')
-    
-    return df
+            df_pitch_data = df_pitch_data.append(pitch_event, ignore_index=True)
+            df_hit_data = df_hit_data.append(hit_event, ignore_index=True)
 
-def process_team_personnel_data(data):
-    if 'team_personnel' in data:
-        data = data['team_personnel']
-    if not data or not isinstance(data, list):
-        print("No team personnel data or data is not in expected format.")
-        return pd.DataFrame()  # Retorna un DataFrame vacío
+    df_game_events.to_csv('game_events.csv', index=False)
+    df_pitch_data.to_csv('pitch_data.csv', index=False)
+    df_hit_data.to_csv('hit_data.csv', index=False)
 
-    df = pd.DataFrame(data)
-    
-    # Example of filtering data by role
-    if 'role' in df.columns:
-        filtered_df = df[df['role'] == 'manager']
-    else:
-        print("Column 'role' not found in team personnel data.")
-        filtered_df = pd.DataFrame()
+    df_game_events.to_excel('game_events.xlsx', index=False)
+    df_pitch_data.to_excel('pitch_data.xlsx', index=False)
+    df_hit_data.to_excel('hit_data.xlsx', index=False)
 
-    return filtered_df
+# Main function to run the processing
+if __name__ == "__main__":
+    # Load and process player data
+    player_data = load_json_data('player_data.json')
+    processed_player_data = process_player_data(player_data)
+    print("Processed Player Data:")
+    print(processed_player_data)
 
-def process_team_affiliates_data(data):
-    if 'team_affiliates' in data:
-        data = data['team_affiliates']
-    if not data or not isinstance(data, list):
-        print("No team affiliates data or data is not in expected format.")
-        return pd.DataFrame()  # Retorna un DataFrame vacío
+    # Load and process game play-by-play data
+    game_playbyplay_data = load_json_data('game_playbyplay_data.json')
+    processed_game_data = process_game_playbyplay_data(game_playbyplay_data)
+    print("Processed Game Data:")
+    print(processed_game_data)
 
-    df = pd.DataFrame(data)
-    
-    # Example of renaming columns
-    df.rename(columns={'affiliation': 'affiliate_name'}, inplace=True)
-    
-    return df
-
-def process_team_roster_data(data):
-    if 'team_roster' in data:
-        data = data['team_roster']
-    if not data or not isinstance(data, list):
-        print("No team roster data or data is not in expected format.")
-        return pd.DataFrame()  # Retorna un DataFrame vacío
-
-    df = pd.DataFrame(data)
-    
-    # Example of adding a new column
-    df['roster_status'] = 'active'
-    
-    return df
+    # Load and process game events data
+    game_events_data = load_json_data('data.json')
+    process_data(game_events_data)
