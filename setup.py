@@ -25,7 +25,7 @@ setup(
         "requests==2.28.1",
         "flask==2.1.3",
         "python-dotenv==0.19.2",
-        "gunicorn==20.1.0",
+        "gunicorn==22.0.0",
         "pytest==7.1.2",
     ],
     entry_points={
