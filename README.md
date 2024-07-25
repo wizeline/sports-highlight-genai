@@ -17,6 +17,45 @@ ___
 Develop a GenAI-powered tool that automatically identifies key moments in sports events to generate highlight reels. This project leverages real-time statistical data, video processing, and image analysis to create engaging sports highlights. Optional features include video editing capabilities and social media integration for sharing highlights.
 
 ___
+
+## Project Structure
+
+```plaintext
+input_files/                  # Directory for input files
+output_files/                 # Directory for output files
+    __init__.py               # Initialization file for output files package
+src/                          # Source code directory
+    app.py                    # Main application entry point
+    config.py                 # Configuration settings for the project
+    handlers/                 # Directory for handler modules
+        __pycache__/          # Compiled Python files for handlers
+        __init__.py           # Initialization file for handlers package
+        data_management.py    # Data processing and management functions
+        facebook_api.py       # Facebook API integration
+        tiktok_api.py         # TikTok API integration
+        instagram_api.py      # Instagram API integration
+        youtube_api.py        # YouTube API integration
+        video_processing.py   # Video processing functions
+    services/                 # Directory for service modules
+        __pycache__/          # Compiled Python files for services
+        __init__.py           # Initialization file for services package
+        mlb_api.py            # MLB API integration
+        aws_s3.py             # AWS S3 integration
+        authentication.py     # Authentication services
+    utils/                    # Directory for utility modules
+        __pycache__/          # Compiled Python files for utilities
+        __init__.py           # Initialization file for utilities package
+        file_export.py        # File export utilities
+        helpers.py            # Helper functions
+        logger.py             # Logging utilities
+.gitignore                    # Git ignore file
+README.md                     # Project documentation
+.env                          # Environment variables configuration
+requirements.txt              # Python dependencies
+setup.py 
+```
+
+___
 ## Contributing
 
 -Guidelines for contributing to the project. Include how to clone the repository, create a branch, make commits, and submit pull requests.

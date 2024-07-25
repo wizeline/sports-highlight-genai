@@ -1,5 +1,7 @@
+# app.py
+
 from services.mlb_api import MLBAPI
-from handlers.data_management import process_game_playbyplay_data
+from handlers.data_management import process_game_playbyplay_data, process_highlight_moments
 from config import Config
 from utils.file_export import save_to_csv, save_to_excel, save_to_json
 import pandas as pd
@@ -25,6 +27,17 @@ def run_data_processing():
 
 def run_video_processing():
     
+    print("Processing highlight moments from the game play-by-play data...")
+    highlight_moments_df = process_highlight_moments(game_playbyplay_data)
+    print("Processed Highlight Moments Data:")
+    print(highlight_moments_df)
+
+    if highlight_moments_df.empty:
+        print("No highlight moments data to save.")
+    else:
+        save_to_csv(highlight_moments_df, 'highlight_moments.csv')
+        save_to_excel(highlight_moments_df, 'highlight_moments.xlsx')
+        save_to_json(highlight_moments_df, 'highlight_moments.json')
 
 if __name__ == '__main__':
     run_data_processing()
