@@ -1,0 +1,15 @@
+[flake8]
+# Define the maximum line length
+max-line-length = 79
+
+# Ignore certain errors or warnings
+ignore = E203, E266, E501, W503
+
+# Define the types of errors to show
+select = B,C,E,F,W,T4
+
+# Files and directories to include in the analysis
+include = *.py
+
+# Directories and files to exclude from the analysis
+exclude = .git, __pycache__, old, build, dist
