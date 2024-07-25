@@ -27,7 +27,9 @@ def upload_file(file_name, bucket, object_name=None):
         return False
     return True
 
-def downloadFile(bucket_name,object_name,file_name):
+#full video bucket: wc-highlights-videostorage
+#clip bucket: wc-sp-hl-clips
+def download_file(bucket_name,object_name,file_name):
     s3 = boto3client = boto3.client(
     's3',
     aws_access_key_id=ACCESS_KEY,
