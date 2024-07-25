@@ -18,7 +18,6 @@
 *.wmv
 
 # Input and Output files from project
-/output_files
 /input_files
 
 # Ignore Python virtual environments
