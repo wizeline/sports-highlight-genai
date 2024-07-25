@@ -25,6 +25,8 @@ def run_data_processing():
         save_to_excel(game_df, 'game_playbyplay_data.xlsx')
         save_to_json(game_df, 'game_playbyplay_data.json')
 
+def run_video_processing():
+    
     print("Processing highlight moments from the game play-by-play data...")
     highlight_moments_df = process_highlight_moments(game_playbyplay_data)
     print("Processed Highlight Moments Data:")
