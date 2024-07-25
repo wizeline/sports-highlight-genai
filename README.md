@@ -48,18 +48,6 @@ src/                          # Source code directory
         file_export.py        # File export utilities
         helpers.py            # Helper functions
         logger.py             # Logging utilities
-    tests/                    # Directory for test modules
-        __pycache__/          # Compiled Python files for tests
-        __init__.py           # Initialization file for tests package
-        test_facebook_api.py  # Tests for Facebook API integration
-        test_tiktok_api.py    # Tests for TikTok API integration
-        instagram_api.py      # Tests for Instagram API integration
-        youtube_api.py        # Tests for YouTube API integration
-        test_authentication.py# Tests for authentication services
-        test_aws_s3.py        # Tests for AWS S3 integration
-        test_video_processing.py # Tests for video processing functions
-        test_data_management.py  # Tests for data management functions
-        test_mlb_api.py       # Tests for MLB API integration
 .gitignore                    # Git ignore file
 README.md                     # Project documentation
 .env                          # Environment variables configuration
