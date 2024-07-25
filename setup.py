@@ -22,7 +22,7 @@ setup(
     python_requires='>=3.7',
     install_requires=[
         "boto3==1.24.28",
-        "requests==2.28.1",
+        "requests==2.32.2",
         "flask==2.1.3",
         "python-dotenv==0.19.2",
         "gunicorn==20.1.0",
