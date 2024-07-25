@@ -60,8 +60,8 @@ def run_video_processing():
             subtitles = [
                 {'start_time': 0.0, 'end_time': (clipEndTime-clipStarTime), 'text': highlight[['description']]}],
             create_srt(subtitles,(clipName+'.srt'))
-            uploadFile(clipName+'.srt')
-            uploadFile(clipName+'.mp4')
+            uploadFile(clipName+'.srt','wc-sp-hl-clips')
+            uploadFile(clipName+'.mp4','wc-sp-hl-clips')
 
         save_to_csv(highlight_moments_df, 'highlight_moments.csv')
         save_to_excel(highlight_moments_df, 'highlight_moments.xlsx')

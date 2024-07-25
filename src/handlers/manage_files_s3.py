@@ -18,8 +18,7 @@ def upload_file(file_name, bucket, object_name=None):
     s3_client = boto3.client(
     's3',
     aws_access_key_id=ACCESS_KEY,
-    aws_secret_access_key=SECRET_KEY,
-    aws_session_token=SESSION_TOKEN
+    aws_secret_access_key=SECRET_KEY
 )
         response = s3_client.upload_file(file_name, bucket, object_name)
     except ClientError as e:
@@ -33,7 +32,6 @@ def download_file(bucket_name,object_name,file_name):
     s3 = boto3client = boto3.client(
     's3',
     aws_access_key_id=ACCESS_KEY,
-    aws_secret_access_key=SECRET_KEY,
-    aws_session_token=SESSION_TOKEN
+    aws_secret_access_key=SECRET_KEY
 )
     s3.download_file('BUCKET_NAME', 'OBJECT_NAME', 'FILE_NAME')
