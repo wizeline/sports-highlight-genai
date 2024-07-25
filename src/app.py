@@ -5,6 +5,8 @@ from handlers.data_management import process_game_playbyplay_data, process_highl
 from handlers.manage_files_s3 import download_file,upload_file
 from config import Config
 from utils.file_export import save_to_csv, save_to_excel, save_to_json
+from utils.video_processing import create_clip_from_video
+from utils.create_subtitles import create_srt
 import pandas as pd
 
 def run_data_processing():
@@ -51,10 +53,8 @@ def run_video_processing():
             dt1 = datetime.fromisoformat(gameStartTime.replace("Z", "+00:00"))
             dt2 = datetime.fromisoformat(eventStartTime.replace("Z", "+00:00"))
             dt3=datetime.fromisoformat(eventEndTime.replace("Z", "+00:00"))
-            # Calculate the difference between the two datetime objects
             clipStartTime = dt2-dt1
             clipEndTime= dt3-dt1
-            # Get the total elapsed seconds
             elapsed_seconds = time_difference.total_seconds()
             create_clip_from_video('video1.mp4',clipStarTime,clipEndTime,(clipName+'.mp4'))
             subtitles = [
